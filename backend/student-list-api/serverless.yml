@@ -1,0 +1,45 @@
+service: student-list-api
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  environment:
+    STUDENTS_TABLE: StudentDetails
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Scan
+        - dynamodb:PutItem
+      Resource: 'arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STUDENTS_TABLE}'
+
+functions:
+  addStudent:
+    handler: lambdaFunctions/addStudent.handler
+    events:
+      - http:
+          path: /students
+          method: post
+          cors: true
+  getStudent:
+    handler: lambdaFunctions/getStudent.handler
+    events:
+      - http:
+          path: /students
+          method: get
+          cors: true
+
+resources:
+  Resources:
+    StudentsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.STUDENTS_TABLE}
+        AttributeDefinitions:
+          - AttributeName: name
+            AttributeType: S
+        KeySchema:
+          - AttributeName: name
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
