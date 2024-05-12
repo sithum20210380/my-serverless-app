@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.1617.0",
+    "aws-sdk": "^2.1618.0",
     "express": "^4.19.2",
     "serverless-http": "^3.2.0",
     "uuid": "^9.0.1"

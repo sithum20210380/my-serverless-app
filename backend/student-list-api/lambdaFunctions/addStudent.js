@@ -1,30 +1,34 @@
 const AWS = require('aws-sdk');
-const uuid = require('uuid');
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = async (event) => {
-    const { name, email } = JSON.parse(event.body);
-    const studentId = uuid.v4();
+    const { studentId, name, email } = event;
 
     const params = {
         TableName: 'StudentDetails',
         Item: {
-            studentId,
-            name,
-            email,
-        },
+            studentId: studentId,
+            name: name,
+            email: email
+        }
     };
 
     try {
         await dynamoDB.put(params).promise();
         return {
-            statusCode: 201,
-            body: JSON.stringify({ message: 'Student added successfully' }),
+            statusCode: 200,
+            body: JSON.stringify({ message: 'Student details added successfully' }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
         };
     } catch (error) {
         return {
             statusCode: 500,
-            body: JSON.stringify({ message: 'Error adding student' }),
+            body: JSON.stringify({ message: 'Error adding student details', error: error.message }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
         };
     }
 };
