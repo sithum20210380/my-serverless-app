@@ -1,10 +1,29 @@
 import React, { useState, useEffect } from 'react';
+import { Table } from 'antd';
 import axios from 'axios';
 
-const APIURL = 'https://y7gs0ssz03.execute-api.ap-south-1.amazonaws.com/prod/';
+const APIURL = 'https://v7h8e4mel6.execute-api.ap-south-1.amazonaws.com/prod/';
 
 const StudentList = () => {
     const [students, setStudents] = useState([]);
+
+    const columns = [
+        {
+            title: 'Student ID',
+            dataIndex: 'studentId',
+            key: 'studentId',
+        },
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            key: 'name',
+        },
+        {
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
+        },
+    ];
 
     useEffect(() => {
         const fetchStudents = async () => {
@@ -25,17 +44,7 @@ const StudentList = () => {
     return (
         <div>
             <h2>Student List</h2>
-            {students.length > 0 ? (
-                <ul>
-                    {students.map((student) => (
-                        <li key={student.studentId}>
-                            {student.name} - {student.email}
-                        </li>
-                    ))}
-                </ul>
-            ) : (
-                <p>No students found</p>
-            )}
+            <Table dataSource={students} columns={columns} rowKey="studentId" />
         </div>
     );
 };
