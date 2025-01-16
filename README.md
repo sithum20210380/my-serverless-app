@@ -135,5 +135,3 @@ Contributions are what make the open-source community such an amazing place to l
 5. Open a Pull Request
 
 ---
-
-Feel free to adjust any sections to better fit your project specifics and ensure to include the correct paths for images and other resources.
